@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:regiokargotramtrain_app/widgets/header.dart';
 import 'package:regiokargotramtrain_app/widgets/navbar.dart';
+import 'package:regiokargotramtrain_app/widgets/buttons/square_button.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -17,64 +18,17 @@ class StartPage extends StatelessWidget {
             children: [
               Text(
                 'Was wollen Sie tun?',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.black),
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineMedium?.copyWith(color: Colors.black),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    child: SizedBox(
-                      width: 250,
-                      height: 250,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          padding: EdgeInsets.zero,
-                        ),
-                        onPressed: () {
-                          // pick up package
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(Icons.send, size: 40),
-                            SizedBox(height: 8),
-                            Text('Abholen', style: TextStyle(fontSize: 18)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 24),
-                    SizedBox(
-                      child: SizedBox(
-                        width: 250,
-                        height: 250,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                          onPressed: () {
-                            // send package
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.inbox, size: 40),
-                              SizedBox(height: 8),
-                              Text('Versand', style: TextStyle(fontSize: 18)),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ),
+                  SquareButton(icon: Icons.inbox, label: 'Abholen', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // add routes
+                  SquareButton(icon: Icons.send, label: 'Versand', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // add routes
                 ],
               ),
             ],
