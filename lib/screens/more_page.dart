@@ -14,7 +14,7 @@ class MorePage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Worüber wollen Sie mehr erfahren?',
@@ -24,18 +24,54 @@ class MorePage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
-              Expanded(
-                child: Wrap(
-                  spacing: 24,
-                  runSpacing: 24,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    SquareButton(icon: Icons.info, label: 'Allgemein', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // TODO: open general page 
-                    SquareButton(icon: Icons.question_answer, label: 'FAQ', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // TODO: open faq page
-                    SquareButton(icon: Icons.settings, label: 'Einstellung', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // TODO: open settings page
-                    SquareButton(icon: Icons.info_outline, label: 'Über uns', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // TODO: open about us page
-                  ],
-                ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SquareButton(
+                        icon: Icons.info,
+                        label: 'Allgemein',
+                        onPressed: () {},
+                        backgroundColor: Colors.white,
+                        iconColor: Colors.black,
+                        textColor: Colors.black,
+                      ),
+                      const SizedBox(width: 32),
+                      SquareButton(
+                        icon: Icons.question_answer,
+                        label: 'FAQ',
+                        onPressed: () {},
+                        backgroundColor: Colors.white,
+                        iconColor: Colors.black,
+                        textColor: Colors.black,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SquareButton(
+                        icon: Icons.settings,
+                        label: 'Einstellung',
+                        onPressed: () {},
+                        backgroundColor: Colors.white,
+                        iconColor: Colors.black,
+                        textColor: Colors.black,
+                      ),
+                      const SizedBox(width: 32),
+                      SquareButton(
+                        icon: Icons.info_outline,
+                        label: 'Über uns',
+                        onPressed: () {},
+                        backgroundColor: Colors.white,
+                        iconColor: Colors.black,
+                        textColor: Colors.black,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

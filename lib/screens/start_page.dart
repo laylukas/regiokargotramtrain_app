@@ -27,8 +27,23 @@ class StartPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SquareButton(icon: Icons.inbox, label: 'Abholen', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // add routes
-                  SquareButton(icon: Icons.send, label: 'Versand', onPressed: () {}, backgroundColor: Colors.white, iconColor: Colors.black, textColor: Colors.black), // add routes
+                  SquareButton(
+                    icon: Icons.inbox,
+                    label: 'Abholen',
+                    onPressed: () {},
+                    backgroundColor: Colors.white,
+                    iconColor: Colors.black,
+                    textColor: Colors.black,
+                  ), // add routes
+                  const SizedBox(width: 32),
+                  SquareButton(
+                    icon: Icons.send,
+                    label: 'Versand',
+                    onPressed: () {},
+                    backgroundColor: Colors.white,
+                    iconColor: Colors.black,
+                    textColor: Colors.black,
+                  ), // add routes
                 ],
               ),
             ],

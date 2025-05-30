@@ -14,7 +14,7 @@ class InfoPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               WideButton(
                 icon: Icons.info,
@@ -24,6 +24,7 @@ class InfoPage extends StatelessWidget {
                 iconColor: Colors.black,
                 textColor: Colors.black,
               ),
+              const SizedBox(height: 32),
               WideButton(
                 icon: Icons.radio_button_checked,
                 label: '9 Freie Fächer',
@@ -32,6 +33,7 @@ class InfoPage extends StatelessWidget {
                 iconColor: Colors.black,
                 textColor: Colors.black,
               ), // add route
+              const SizedBox(height: 32),
               WideButton(
                 icon: Icons.radio_button_checked,
                 label: '7 Freie Fächer',

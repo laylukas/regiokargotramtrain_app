@@ -14,7 +14,7 @@ class AccountPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               WideButton(
                 icon: Icons.send_outlined,
@@ -24,6 +24,7 @@ class AccountPage extends StatelessWidget {
                 iconColor: Colors.black,
                 textColor: Colors.black,
               ), // add route
+              const SizedBox(height: 32),
               WideButton(
                 icon: Icons.qr_code,
                 label: 'Online-Frankierung',
@@ -32,6 +33,7 @@ class AccountPage extends StatelessWidget {
                 iconColor: Colors.black,
                 textColor: Colors.black,
               ), // add route
+              const SizedBox(height: 32),
               WideButton(
                 icon: Icons.settings,
                 label: 'Einstellungen',
@@ -40,6 +42,7 @@ class AccountPage extends StatelessWidget {
                 iconColor: Colors.black,
                 textColor: Colors.black,
               ), // add route
+              const SizedBox(height: 32),
               WideButton(
                 icon: Icons.person,
                 label: 'Meine Daten',
