@@ -23,27 +23,40 @@ class WideButton extends StatelessWidget {
     return SizedBox(
       width: 600,
       height: 200,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        onPressed: onPressed,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(width: 32),
-            Icon(icon, size: 60, color: iconColor),
-            const SizedBox(width: 32),
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(fontSize: 16, color: textColor),
-              ),
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 12,
+              offset: Offset(0, 5),
+            )
           ],
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 0, // Remove default shadow to use custom one
+          ),
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(width: 32),
+              Icon(icon, size: 70, color: iconColor),
+              const SizedBox(width: 32),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(fontSize: 22, color: textColor),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

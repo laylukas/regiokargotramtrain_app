@@ -9,7 +9,7 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(currentIndex: 2, title: 'Info Page'),
+      appBar: const Header(currentIndex: 2, title: 'Informationen'),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -46,7 +46,7 @@ class InfoPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Navbar(currentIndex: 0),
+      bottomNavigationBar: const Navbar(currentIndex: 2),
     );
   }
 }

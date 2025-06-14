@@ -23,26 +23,39 @@ class SquareButton extends StatelessWidget {
     return SizedBox(
       width: 200,
       height: 200,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          padding: EdgeInsets.zero,
-        ),
-        onPressed: onPressed,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40, color: iconColor),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: TextStyle(fontSize: 16, color: textColor),
-              textAlign: TextAlign.center,
-            )
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), 
+              blurRadius: 12,
+              offset: const Offset(0, 5),
+            ),
           ],
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: EdgeInsets.zero,
+            elevation: 0, // Remove default shadow
+          ),
+          onPressed: onPressed,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 70, color: iconColor),
+              const SizedBox(height: 8),
+              Text(
+                label,
+                style: TextStyle(fontSize: 22, color: textColor),
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
         ),
       ),
     );

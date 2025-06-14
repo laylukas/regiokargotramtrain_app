@@ -8,7 +8,7 @@ class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(currentIndex: 1, title: 'Map Page'),
+      appBar: const Header(currentIndex: 1, title: 'Standort'),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -17,7 +17,7 @@ class MapPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Navbar(currentIndex: 0),
+      bottomNavigationBar: const Navbar(currentIndex: 1),
     );
   }
 }

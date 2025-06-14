@@ -21,13 +21,8 @@ class RegioKArgoTramTrainApp extends StatelessWidget {
     return MaterialApp(
       title: 'RegioKArgoTramTrain',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF009940)),
         useMaterial3: false,
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.black,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF009940)),
       ),
       // loading page
       initialRoute: '/loading',

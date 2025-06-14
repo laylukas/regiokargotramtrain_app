@@ -9,7 +9,7 @@ class MorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const Header(currentIndex: 0, title: 'More Page'),
+      appBar: const Header(currentIndex: 0, title: 'Mehr'),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),

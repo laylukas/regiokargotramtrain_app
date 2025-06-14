@@ -15,19 +15,24 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () => Navigator.pushReplacementNamed(context, '/start'),
-          child: Text(
-            'Lieferroboter',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-            textAlign: TextAlign.center,
-          ),
+      toolbarHeight: 80,
+      leading:
+          currentIndex != -1
+              ? IconButton(
+                icon: const Icon(Icons.home),
+                tooltip: 'Zur Startseite',
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/start');
+                },
+              )
+              : null,
+      title: Text(
+        currentIndex == -1 ? 'Lieferroboter' : title,
+        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
         ),
+        textAlign: TextAlign.center,
       ),
       centerTitle: true,
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -48,5 +53,5 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(80);
 }
