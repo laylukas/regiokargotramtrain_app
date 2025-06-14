@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:regiokargotramtrain_app/widgets/header.dart';
-import 'package:regiokargotramtrain_app/widgets/navbar.dart';
+import 'package:regiokargotramtrain_app/widgets/navigation/header.dart';
+import 'package:regiokargotramtrain_app/widgets/navigation/navbar.dart';
 
 class MapPage extends StatelessWidget {
   const MapPage({super.key});

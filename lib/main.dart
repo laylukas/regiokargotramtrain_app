@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 // all pages
 import 'screens/loading_page.dart';
 import 'screens/start_page.dart';
-import 'screens/more_page.dart';
-import 'screens/map_page.dart';
-import 'screens/info_page.dart';
-import 'screens/account_page.dart';
+import 'screens/more/more_page.dart';
+import 'screens/map/map_page.dart';
+import 'screens/information/info_page.dart';
+import 'screens/account/account_page.dart';
 
 void main() {
   runApp(const RegioKArgoTramTrainApp());

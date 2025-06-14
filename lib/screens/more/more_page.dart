@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:regiokargotramtrain_app/widgets/header.dart';
-import 'package:regiokargotramtrain_app/widgets/navbar.dart';
+import 'package:regiokargotramtrain_app/widgets/navigation/header.dart';
+import 'package:regiokargotramtrain_app/widgets/navigation/navbar.dart';
 import 'package:regiokargotramtrain_app/widgets/buttons/square_button.dart';
 import 'package:regiokargotramtrain_app/widgets/buttons/icon_and_rounded_button.dart';
 

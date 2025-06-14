@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:regiokargotramtrain_app/widgets/header.dart';
-import 'package:regiokargotramtrain_app/widgets/navbar.dart';
+import 'package:regiokargotramtrain_app/widgets/navigation/header.dart';
+import 'package:regiokargotramtrain_app/widgets/navigation/navbar.dart';
 import 'package:regiokargotramtrain_app/widgets/buttons/wide_button.dart';
 
 class AccountPage extends StatelessWidget {
