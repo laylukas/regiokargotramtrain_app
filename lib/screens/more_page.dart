@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:regiokargotramtrain_app/widgets/header.dart';
 import 'package:regiokargotramtrain_app/widgets/navbar.dart';
 import 'package:regiokargotramtrain_app/widgets/buttons/square_button.dart';
+import 'package:regiokargotramtrain_app/widgets/buttons/icon_and_rounded_button.dart';
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
@@ -70,6 +71,12 @@ class MorePage extends StatelessWidget {
                         textColor: Colors.black,
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 128),
+                  IconAndRoundedButton(
+                    icon: Icons.report_problem,
+                    label: 'Defekt melden',
+                    onPressed: () {},
                   ),
                 ],
               ),
