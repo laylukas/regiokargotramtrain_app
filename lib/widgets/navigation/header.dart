@@ -19,6 +19,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
       leading:
           currentIndex != -1
               ? IconButton(
+                iconSize: 40,
                 icon: const Icon(Icons.home),
                 tooltip: 'Zur Startseite',
                 onPressed: () {

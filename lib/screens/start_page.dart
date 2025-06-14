@@ -30,11 +30,13 @@ class StartPage extends StatelessWidget {
                   SquareButton(
                     icon: Icons.inbox,
                     label: 'Abholen',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/qr_scan_introduction');
+                    },
                     backgroundColor: Colors.white,
                     iconColor: Colors.black,
                     textColor: Colors.black,
-                  ), // add routes
+                  ),
                   const SizedBox(width: 32),
                   SquareButton(
                     icon: Icons.send,
@@ -43,7 +45,7 @@ class StartPage extends StatelessWidget {
                     backgroundColor: Colors.white,
                     iconColor: Colors.black,
                     textColor: Colors.black,
-                  ), // add routes
+                  ),
                 ],
               ),
             ],

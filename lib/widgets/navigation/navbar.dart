@@ -50,18 +50,22 @@ class Navbar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Icon(Icons.more_horiz),
               label: '',
+              tooltip: 'Erfahre mehr',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.map),
               label: '',
+              tooltip: 'Karte',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.info),
               label: '',
+              tooltip: 'Informationen',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: '',
+              tooltip: 'Account',
             ),
           ],
         ),
