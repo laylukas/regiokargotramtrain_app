@@ -38,9 +38,9 @@ class QrScanSuccessPage extends StatelessWidget {
                         Navigator.of(context).pop();
                         Navigator.pushNamed(context, '/repetition_process');
                       },
-                      backgroundColor: Colors.green[50]!,
+                      backgroundColor: Colors.white,
                       iconColor: Colors.green,
-                      textColor: Colors.green,
+                      textColor: Colors.black,
                     ),
                     const SizedBox(width: 32),
                     SquareButton(
@@ -49,9 +49,9 @@ class QrScanSuccessPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).pop(); 
                       },
-                      backgroundColor: Colors.red[50]!,
+                      backgroundColor: Colors.white,
                       iconColor: Colors.red,
-                      textColor: Colors.red,
+                      textColor: Colors.black,
                     ),
                   ],
                 ),
