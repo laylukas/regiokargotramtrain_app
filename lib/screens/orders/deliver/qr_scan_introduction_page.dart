@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:regiokargotramtrain_app/widgets/buttons/standard_button.dart';
+import 'package:regiokargotramtrain_app/services/mqtt_service.dart';
 import 'package:regiokargotramtrain_app/widgets/navigation/header.dart';
 import 'package:regiokargotramtrain_app/widgets/navigation/navbar.dart';
 
@@ -40,8 +41,22 @@ class QrScanInstructionPage extends StatelessWidget {
                     const SizedBox(height: 32),
                     StandardButton(
                       label: 'Scanvorgang starten',
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/qr_code_display');
+                      onPressed: () async {
+                        try {
+                          // Publish an MQTT message to trigger scanner start
+                          await MqttService.instance.publishStartScan();
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Fehler beim Starten des Scanvorgangs: $e')),
+                            );
+                          }
+                          // Still navigate for now to keep flow; remove if you want strict blocking
+                        } finally {
+                          if (context.mounted) {
+                            Navigator.pushNamed(context, '/qr_code_display');
+                          }
+                        }
                       },
                     ),
                   ],
