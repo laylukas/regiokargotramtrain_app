@@ -23,24 +23,36 @@ class _QrCodeDisplayPageState extends State<QrCodeDisplayPage> {
   @override
   void initState() {
     super.initState();
-    // Ensure MQTT connected and listen for results
-    MqttService.instance.connect().catchError((e) {
-      // ignore for now; could show a snackbar
-    }).then((_) {
+    // Start MQTT setup. use async method so we can await connection
+    _initMqtt();
+  }
+
+  Future<void> _initMqtt() async {
+    try {
+      // try connecting and wait for completion
+      await MqttService.instance.connect();
+      // debug
+      // ignore: avoid_print
+      print('MQTT: connected from UI, subscribing to result topic');
+
+      // subscribe to incoming result messages
       _sub = MqttService.instance.messages.listen((msg) {
+        // ignore debug/status messages
         if (msg.topic == (MqttConfig.topicResult ?? 'regiokargo/scanner/result')) {
           try {
             final data = jsonDecode(msg.payload) as Map<String, dynamic>;
             final status = data['status'];
+            // ignore if widget disposed
+            if (!mounted) return;
             if (status == 'ok') {
-              if (!mounted) return;
               Navigator.pushNamed(context, '/qr_scan_success');
             } else {
-              if (!mounted) return;
               Navigator.pushNamed(context, '/qr_scan_failed');
             }
           } catch (e) {
-            // ignore parse errors
+            // ignore parse errors but log
+            // ignore: avoid_print
+            print('MQTT: failed to parse result payload: ${e.toString()}');
           }
         }
       });
@@ -51,8 +63,18 @@ class _QrCodeDisplayPageState extends State<QrCodeDisplayPage> {
         'command': 'start_scan',
         if (expected != null) 'expected_compartment': expected,
       };
-      MqttService.instance.publishJson(MqttConfig.topicStartScan, payload);
-    });
+
+      // debug
+      // ignore: avoid_print
+      print('MQTT: publishing start_scan -> $payload to ${MqttConfig.topicStartScan}');
+      await MqttService.instance.publishJson(MqttConfig.topicStartScan, payload);
+      // debug
+      // ignore: avoid_print
+      print('MQTT: publish complete');
+    } catch (e) {
+      // ignore: avoid_print
+      print('MQTT: connection/setup error: ${e.toString()}');
+    }
   }
 
   int? _parseExpectedCompartment(String qrData) {
