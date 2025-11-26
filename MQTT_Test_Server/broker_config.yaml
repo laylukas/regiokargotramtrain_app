@@ -3,7 +3,7 @@ listeners:
   default:
     type: tcp
     # bind to localhost so tests run only locally; change to 0.0.0.0 if needed
-    bind: 127.0.0.1:9001
+    bind: 0.0.0.0:9001
 
 timeout_disconnect_delay: 0
 plugins:

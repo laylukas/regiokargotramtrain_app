@@ -6,7 +6,7 @@ class MqttConfig {
   // === Connection ===
   /// Broker hostname or IP (e.g., 'broker.hivemq.com' or '192.168.1.10')
   // Default to local test broker. Change to your production broker when needed.
-  static const String broker = 'localhost';
+  static const String broker = '172.20.47.40';
 
   /// Port number (1883 plain TCP, 8883 TLS, or WS-port for WebSocket)
   // Test server in `projector-animations/MQTT_Test_Server` binds to port 9001
