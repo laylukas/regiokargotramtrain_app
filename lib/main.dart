@@ -10,7 +10,7 @@ import 'screens/account/account_page.dart';
 import 'screens/orders/deliver/qr_scan_introduction_page.dart';
 import 'screens/orders/deliver/qr_code_display_page.dart';
 import 'screens/orders/deliver/qr_scan_success_page.dart';
-//import 'screens/orders/deliver/qr_scan_failed_page.dart';
+import 'screens/orders/deliver/qr_scan_failed_page.dart';
 import 'screens/orders/deliver/repetition_process_page.dart';
 import 'screens/orders/deliver/pickup_done.dart';
 
@@ -44,7 +44,7 @@ class RegioKArgoTramTrainApp extends StatelessWidget {
         '/qr_scan_introduction': (context) => QrScanInstructionPage(),
         '/qr_code_display': (context) => QrCodeDisplayPage(),
         '/qr_scan_success': (context) => QrScanSuccessPage(),
-        //'/qr_scan_failed': (context) => QrScanFailed(),
+        '/qr_scan_failed': (context) => QrScanFailed(),
         '/repetition_process': (context) => RepetitionProcessPage(),
         '/pickup_done': (context) => PickupDone()
       },

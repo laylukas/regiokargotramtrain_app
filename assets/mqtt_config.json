@@ -1,0 +1,23 @@
+{
+  "environment": "test",
+  "test": {
+    "broker": "localhost",
+    "port": 1883,
+    "user": null,
+    "pass": null,
+    "topic_command": "regiokargo/scanner/command",
+    "topic_result": "regiokargo/scanner/result",
+    "topic_status": "regiokargo/scanner/status",
+    "client_id": "flutter_app_test"
+  },
+  "production": {
+    "broker": "broker.university.example",
+    "port": 1883,
+    "user": "your_user",
+    "pass": "your_pass",
+    "topic_command": "regiokargo/scanner/command",
+    "topic_result": "regiokargo/scanner/result",
+    "topic_status": "regiokargo/scanner/status",
+    "client_id": "flutter_app"
+  }
+}
