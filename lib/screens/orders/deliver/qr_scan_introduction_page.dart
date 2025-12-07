@@ -37,24 +37,52 @@ class QrScanInstructionPage extends StatelessWidget {
                       'assets/gif/qr_scan_example.gif', // muessen wir noch erstellen
                       height: 200,
                       fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.image_not_supported, size: 200),
                     ),
                     const SizedBox(height: 32),
                     StandardButton(
                       label: 'Scanvorgang starten',
-                      onPressed: () async {
+                      onPressed: () {
+                        // debug: button pressed
+                        // ignore: avoid_print
+                        print('Start Scan button pressed');
+
+                        // Fire-and-forget the publish so the UI can navigate immediately.
+                        MqttService.instance
+                            .publishStartScan()
+                            .catchError((error, stackTrace) {
+                              // Log detailed error for debugging
+                              // ignore: avoid_print
+                              print('MQTT publishStartScan error: ${error.toString()}');
+                              // ignore: avoid_print
+                              print(stackTrace);
+
+                              final message = error?.toString() ?? 'Unbekannter Fehler';
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).clearSnackBars();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Fehler beim Starten des Scanvorgangs: $message')),
+                                );
+                              }
+                            });
+
+                        if (!context.mounted) return;
+
                         try {
-                          // Publish an MQTT message to trigger scanner start
-                          await MqttService.instance.publishStartScan();
-                        } catch (e) {
+                          // debug: before navigation
+                          // ignore: avoid_print
+                          print('Navigating to /qr_code_display');
+                          Navigator.of(context).pushNamed('/qr_code_display');
+                        } catch (e, st) {
+                          // ignore: avoid_print
+                          print('Navigation error: ${e.toString()}');
+                          // ignore: avoid_print
+                          print(st);
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Fehler beim Starten des Scanvorgangs: $e')),
+                              SnackBar(content: Text('Navigation fehlgeschlagen: ${e.toString()}')),
                             );
-                          }
-                          // Still navigate for now to keep flow; remove if you want strict blocking
-                        } finally {
-                          if (context.mounted) {
-                            Navigator.pushNamed(context, '/qr_code_display');
                           }
                         }
                       },

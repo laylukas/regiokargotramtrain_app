@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:mqtt_client/mqtt_browser_client.dart';
 import 'package:regiokargotramtrain_app/config/mqtt_config.dart';
 
 /// High level MQTT service wrapper.
@@ -16,7 +18,8 @@ class MqttService {
   MqttService._();
   static final MqttService instance = MqttService._();
 
-  MqttServerClient? _client;
+  MqttClient? _client;
+  // Single-flight connector for both platforms
   Completer<void>? _connecting;
 
   final StreamController<MqttAppMessage> _messageController =
@@ -41,26 +44,36 @@ class MqttService {
 
     final clientId =
         '${MqttConfig.clientIdPrefix}${DateTime.now().microsecondsSinceEpoch}';
-    final client = MqttServerClient.withPort(
-      MqttConfig.broker,
-      clientId,
-      MqttConfig.port,
-    );
+
+    // Choose the appropriate client for the platform. On Web use the
+    // MqttBrowserClient which expects a websocket URL (ws:// or wss://).
+    late final MqttClient client;
+    if (kIsWeb) {
+      final scheme = MqttConfig.useTls ? 'wss' : 'ws';
+      final path = MqttConfig.websocketPath ?? '';
+      final uri = '$scheme://${MqttConfig.broker}:${MqttConfig.port}$path';
+      client = MqttBrowserClient(uri, clientId);
+    } else {
+      client = MqttServerClient.withPort(
+        MqttConfig.broker,
+        clientId,
+        MqttConfig.port,
+      );
+    }
+
     client.logging(on: false);
     client.keepAlivePeriod = MqttConfig.keepAliveSeconds;
-    client.autoReconnect = true;
+    // autoReconnect is only available for the VM client; guard safely
+    try {
+      // some implementations support autoReconnect
+      (client as dynamic).autoReconnect = true;
+    } catch (_) {}
     client.onDisconnected = _handleDisconnected;
     client.onConnected = _handleConnected;
-    client.onAutoReconnect = _handleAutoReconnect;
-    client.onAutoReconnected = _handleAutoReconnected;
-
-    if (MqttConfig.useWebSocket) {
-      client.useWebSocket = true;
-      // NOTE: mqtt_client 10.x does not expose a websocket path setter.
-      // If a path is required, include it in the broker string (e.g. 'host/path')
-      // or update to a version that supports explicit path if available.
-      // client.websocketProtocols = MqttClientConstants.protocolsSingleDefault;
-    }
+    try {
+      client.onAutoReconnect = _handleAutoReconnect;
+      client.onAutoReconnected = _handleAutoReconnected;
+    } catch (_) {}
 
     // Build connect message
     var conn = MqttConnectMessage().withClientIdentifier(clientId);
@@ -80,8 +93,9 @@ class MqttService {
     client.connectionMessage = conn;
 
     try {
-      if (MqttConfig.useTls) {
-        client.secure = true;
+      if (!kIsWeb && MqttConfig.useTls && client is MqttServerClient) {
+        // Only the server client (VM) implementation exposes `secure`.
+        (client as MqttServerClient).secure = true;
         // If you need custom certificates later, attach a SecurityContext here.
       }
 
@@ -97,7 +111,9 @@ class MqttService {
 
       _client = client;
       // Listen to raw updates
-      _client!.updates?.listen(_processUpdates);
+      try {
+        _client!.updates?.listen(_processUpdates);
+      } catch (_) {}
 
       // Auto-subscribe to predefined topics if configured
       for (final t in [MqttConfig.topicAck, MqttConfig.topicStatus, MqttConfig.topicResult]) {
@@ -108,7 +124,9 @@ class MqttService {
 
       _connecting!.complete();
     } catch (e) {
-      _client?.disconnect();
+      try {
+        _client?.disconnect();
+      } catch (_) {}
       _client = null;
       if (!(_connecting?.isCompleted ?? true)) {
         _connecting!.completeError(e);

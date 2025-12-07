@@ -90,6 +90,8 @@ class QrScanSuccessPage extends StatelessWidget {
                       'assets/gif/package_success.gif',
                       height: 120,
                       fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.image_not_supported, size: 120),
                     ),
                     const SizedBox(height: 32),
                     Text(

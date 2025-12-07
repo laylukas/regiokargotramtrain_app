@@ -5,21 +5,27 @@
 class MqttConfig {
   // === Connection ===
   /// Broker hostname or IP (e.g., 'broker.hivemq.com' or '192.168.1.10')
-  // Default to local test broker. Change to your production broker when needed.
-  static const String broker = '172.20.47.40';
+  // Broker to use for the app.
+  // For local testing with the embedded test broker running on this
+  // development machine, set this to the host's IPv4 address shown by
+  // `ipconfig` (e.g. 172.28.160.1). For deployment when the broker runs
+  // on the Raspberry Pi, change this to the Pi's IP (e.g. 172.20.47.40).
+  static const String broker = '10.45.76.40';
 
   /// Port number (1883 plain TCP, 8883 TLS, or WS-port for WebSocket)
-  // Test server in `projector-animations/MQTT_Test_Server` binds to port 9001
+  // Test server in `projector-animations/MQTT_Test_Server` exposes WebSocket on 9001
   static const int port = 9001;
 
   /// Set true if the broker requires TLS on the chosen port
   static const bool useTls = false;
 
   /// If your broker exposes MQTT over WebSocket (often required in browsers)
-  static const bool useWebSocket = false;
+  // Use WebSocket in browser builds. Set to true for Flutter Web (Chrome).
+  static const bool useWebSocket = true;
 
   /// Optional WebSocket path (commonly '/mqtt'). Ignored when useWebSocket=false
-  static const String websocketPath = '/mqtt';
+  /// Note: the embedded test broker does not expose a path, so use empty string.
+  static const String websocketPath = '';
 
   /// Prefix for the client id. A unique suffix is added automatically.
   static const String clientIdPrefix = 'regiokargotramtrain_app_';
@@ -30,9 +36,12 @@ class MqttConfig {
   /// Start with a clean session (no persisted subscriptions/queues)
   static const bool cleanSession = true;
 
-  // === Authentication (optional) ===
-  static const String? username = null; // e.g., 'student'
-  static const String? password = null; // e.g., 'secret'
+  // === Authentication (test broker) ===
+  // The embedded test broker (`MQTT_Test_Server/Server.py`) writes one test
+  // user by default: user `test_user` with password `test_password`.
+  // Set these here so browser and Pi clients authenticate correctly.
+  static const String? username = 'test_user';
+  static const String? password = 'test_password';
 
   // === Last Will & Testament (optional but recommended) ===
   /// Set to a topic if you want the broker to publish a will message on
