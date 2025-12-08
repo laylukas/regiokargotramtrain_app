@@ -51,8 +51,24 @@ class MqttService {
     if (kIsWeb) {
       final scheme = MqttConfig.useTls ? 'wss' : 'ws';
       final path = MqttConfig.websocketPath ?? '';
-      final uri = '$scheme://${MqttConfig.broker}:${MqttConfig.port}$path';
+      final wsPort = MqttConfig.websocketPort ?? MqttConfig.port;
+      final uri = '$scheme://${MqttConfig.broker}:${wsPort}$path';
       client = MqttBrowserClient(uri, clientId);
+      // Some mqtt_client versions keep a separate `port`/`server` field.
+      // Ensure they match the URI so the browser WS uses the correct port.
+      try {
+        (client as dynamic).server = uri;
+      } catch (_) {}
+      try {
+        (client as dynamic).port = wsPort;
+      } catch (_) {}
+      // Debug: print resolved internal fields
+      try {
+        // ignore: avoid_print
+        print('MQTT DEBUG: client.server=' + ((client as dynamic).server ?? 'null'));
+        // ignore: avoid_print
+        print('MQTT DEBUG: client.port=' + ((client as dynamic).port?.toString() ?? 'null'));
+      } catch (_) {}
     } else {
       client = MqttServerClient.withPort(
         MqttConfig.broker,
@@ -61,10 +77,23 @@ class MqttService {
       );
     }
 
-    client.logging(on: false);
+    // Enable verbose logging for debugging. Turn this off in production.
+    client.logging(on: true);
     client.keepAlivePeriod = MqttConfig.keepAliveSeconds;
     // autoReconnect is only available for the VM client; guard safely
     try {
+      // Debug: print which client / uri we will connect with
+      if (kIsWeb) {
+        final scheme = MqttConfig.useTls ? 'wss' : 'ws';
+        final path = MqttConfig.websocketPath ?? '';
+        final wsPort = MqttConfig.websocketPort ?? MqttConfig.port;
+        final uri = '$scheme://${MqttConfig.broker}:${wsPort}$path';
+        // ignore: avoid_print
+        print('MQTT DEBUG: Web client will connect to $uri with clientId=$clientId');
+      } else {
+        // ignore: avoid_print
+        print('MQTT DEBUG: VM client will connect to ${MqttConfig.broker}:${MqttConfig.port} with clientId=$clientId');
+      }
       // some implementations support autoReconnect
       (client as dynamic).autoReconnect = true;
     } catch (_) {}
@@ -77,6 +106,25 @@ class MqttService {
 
     // Build connect message
     var conn = MqttConnectMessage().withClientIdentifier(clientId);
+    // Try to prefer MQTT v3.1.1 (ProtocolName = 'MQTT', ProtocolVersion = 4)
+    // Some versions of `mqtt_client` expose helper methods or fields to
+    // change the protocol name/version. Attempt the common ones dynamically
+    // so this code works across multiple versions; if a method/field does
+    // not exist the call will be ignored.
+    try {
+      try {
+        (conn as dynamic).withProtocolName('MQTT');
+      } catch (_) {}
+      try {
+        (conn as dynamic).withProtocolVersion(4);
+      } catch (_) {}
+      try {
+        (conn as dynamic).withProtocolLevel(4);
+      } catch (_) {}
+      try {
+        (conn as dynamic).protocolVersion = 4;
+      } catch (_) {}
+    } catch (_) {}
     if (MqttConfig.cleanSession) {
       conn = conn.startClean();
     }
@@ -100,16 +148,26 @@ class MqttService {
       }
 
       if (MqttConfig.username != null && MqttConfig.password != null) {
+        // ignore: avoid_print
+        print('MQTT DEBUG: connecting with username ${MqttConfig.username}');
         await client.connect(MqttConfig.username, MqttConfig.password);
       } else {
+        // ignore: avoid_print
+        print('MQTT DEBUG: connecting without credentials');
         await client.connect();
       }
 
-      if (!isConnected) {
+      // The local `client` was just used to connect. Don't rely on the
+      // `isConnected` getter which checks `_client` (not yet assigned).
+      // Instead inspect the freshly connected client's status.
+      if (client.connectionStatus?.state != MqttConnectionState.connected) {
         throw Exception('MQTT not connected: ${client.connectionStatus}');
       }
 
       _client = client;
+      // Debug: report connection status
+      // ignore: avoid_print
+      print('MQTT DEBUG: connectionStatus=${_client?.connectionStatus}');
       // Listen to raw updates
       try {
         _client!.updates?.listen(_processUpdates);
@@ -157,9 +215,22 @@ class MqttService {
     bool retain = MqttConfig.defaultRetain,
   }) async {
     await _ensureConnected();
+    // Debug: show publish intent
+    // ignore: avoid_print
+    print('MQTT DEBUG: publishing to $topic payload=${payload} qos=$qos retain=$retain');
     final builder = MqttClientPayloadBuilder();
     builder.addString(payload);
-    _client!.publishMessage(topic, _toQos(qos), builder.payload!, retain: retain);
+    try {
+      _client!.publishMessage(topic, _toQos(qos), builder.payload!, retain: retain);
+      // ignore: avoid_print
+      print('MQTT DEBUG: publish called for $topic');
+    } catch (e, st) {
+      // ignore: avoid_print
+      print('MQTT DEBUG: publish error: $e');
+      // ignore: avoid_print
+      print(st);
+      rethrow;
+    }
   }
 
   /// Convenience: publish a JSON-serializable object.
@@ -171,10 +242,13 @@ class MqttService {
   }) => publishString(topic, jsonEncode(jsonMap), qos: qos, retain: retain);
 
   /// Specific convenience method retained for compatibility with earlier code.
-  Future<void> publishStartScan({String? payload}) => publishString(
-        MqttConfig.topicStartScan,
-        payload ?? 'start',
-      );
+  /// Publish a structured start_scan command as JSON so devices expecting
+  /// `{ "command": "start_scan" }` will parse it correctly.
+  Future<void> publishStartScan({String? payload}) {
+    final Map<String, dynamic> body = {'command': 'start_scan'};
+    if (payload != null) body['payload'] = payload;
+    return publishJson(MqttConfig.topicStartScan, body);
+  }
 
   /// Disconnect gracefully.
   Future<void> disconnect() async {

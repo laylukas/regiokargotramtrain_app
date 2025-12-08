@@ -1,10 +1,10 @@
 {
   "environment": "test",
   "test": {
-    "broker": "localhost",
-    "port": 1883,
-    "user": null,
-    "pass": null,
+    "broker": "10.45.76.40",
+    "port": 9001,
+    "user": "test_user",
+    "pass": "test_password",
     "topic_command": "regiokargo/scanner/command",
     "topic_result": "regiokargo/scanner/result",
     "topic_status": "regiokargo/scanner/status",
