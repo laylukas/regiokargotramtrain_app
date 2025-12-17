@@ -9,8 +9,8 @@ class MqttConfig {
   // For local testing with the embedded test broker running on this
   // development machine, set this to the host's IPv4 address shown by
   // `ipconfig` (e.g. 172.28.160.1). For deployment when the broker runs
-  // on the Raspberry Pi, change this to the Pi's IP (e.g. 172.20.47.40).
-  static const String broker = '10.45.76.40';
+  // on the Raspberry Pi, change this to the Pi's IP 192.168.188.138.
+  static const String broker = '192.168.188.138';
 
   /// Port number (1883 plain TCP, 8883 TLS, or WS-port for WebSocket)
   // Test server in `projector-animations/MQTT_Test_Server` exposes WebSocket on 9001
