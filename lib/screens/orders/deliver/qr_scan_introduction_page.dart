@@ -50,7 +50,7 @@ class QrScanInstructionPage extends StatelessWidget {
 
                         // Fire-and-forget the publish so the UI can navigate immediately.
                         MqttService.instance
-                            .publishStartScan()
+                          .publishStartScan(useStatusKey: true)
                             .catchError((error, stackTrace) {
                               // Log detailed error for debugging
                               // ignore: avoid_print

@@ -25,7 +25,7 @@ parser.add_argument('--topic', default='regiokargo/scanner/command')
 parser.add_argument('--compartment', type=int, default=None)
 args = parser.parse_args()
 
-payload = {'command': 'start_scan'}
+payload = {'status': 'start_scan'}
 if args.compartment is not None:
     payload['expected_compartment'] = args.compartment
 

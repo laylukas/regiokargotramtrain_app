@@ -244,9 +244,15 @@ class MqttService {
   /// Specific convenience method retained for compatibility with earlier code.
   /// Publish a structured start_scan command as JSON so devices expecting
   /// `{ "command": "start_scan" }` will parse it correctly.
-  Future<void> publishStartScan({String? payload}) {
-    final Map<String, dynamic> body = {'command': 'start_scan'};
+  /// Publish a start-scan command.
+  ///
+  /// By default the payload uses the `command` key: `{ "command": "start_scan" }`.
+  /// Set [useStatusKey] to true to use `{ "status": "start_scan" }` for
+  /// compatibility with configs that expect `status` instead of `command`.
+  Future<void> publishStartScan({String? payload, Map<String, dynamic>? extra, bool useStatusKey = false}) {
+    final Map<String, dynamic> body = {useStatusKey ? 'status' : 'command': 'start_scan'};
     if (payload != null) body['payload'] = payload;
+    if (extra != null) body.addAll(extra);
     return publishJson(MqttConfig.topicStartScan, body);
   }
 

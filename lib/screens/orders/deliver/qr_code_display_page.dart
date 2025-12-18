@@ -59,15 +59,12 @@ class _QrCodeDisplayPageState extends State<QrCodeDisplayPage> {
 
       // publish start scan command when page is opened
       final expected = _parseExpectedCompartment(widget.qrData);
-      final payload = {
-        'command': 'start_scan',
-        if (expected != null) 'expected_compartment': expected,
-      };
+      final extra = {if (expected != null) 'expected_compartment': expected};
 
       // debug
       // ignore: avoid_print
-      print('MQTT: publishing start_scan -> $payload to ${MqttConfig.topicStartScan}');
-      await MqttService.instance.publishJson(MqttConfig.topicStartScan, payload);
+      print('MQTT: publishing start_scan (status-key) to ${MqttConfig.topicStartScan}');
+      await MqttService.instance.publishStartScan(extra: extra, useStatusKey: true);
       // debug
       // ignore: avoid_print
       print('MQTT: publish complete');
