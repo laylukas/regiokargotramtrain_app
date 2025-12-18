@@ -11,7 +11,7 @@ import 'dart:convert';
 class QrCodeDisplayPage extends StatefulWidget {
   final String qrData;
 
-  const QrCodeDisplayPage({super.key, this.qrData = "Beispiel-QR-Daten"});
+  const QrCodeDisplayPage({super.key, this.qrData = "100234567"});
 
   @override
   State<QrCodeDisplayPage> createState() => _QrCodeDisplayPageState();
@@ -44,7 +44,7 @@ class _QrCodeDisplayPageState extends State<QrCodeDisplayPage> {
             final status = data['status'];
             // ignore if widget disposed
             if (!mounted) return;
-            if (status == 'ok') {
+            if (status == 'success') {
               Navigator.pushNamed(context, '/qr_scan_success');
             } else {
               Navigator.pushNamed(context, '/qr_scan_failed');
