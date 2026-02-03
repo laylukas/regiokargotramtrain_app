@@ -10,25 +10,19 @@ class MqttConfig {
   // development machine, set this to the host's IPv4 address shown by
   // `ipconfig` (e.g. 172.28.160.1). For deployment when the broker runs
   // on the Raspberry Pi, change this to the Pi's IP 192.168.188.138.
-  static const String broker = '10.33.106.40';
+  static const String broker = '192.168.188.105';
 
   /// Port number (1883 plain TCP, 8883 TLS, or WS-port for WebSocket)
-  // Test server in `projector-animations/MQTT_Test_Server` exposes WebSocket on 9001
-  // Use the standard MQTT TCP port for non-web Flutter clients so they
-  // connect with the correct transport. The test broker also exposes
-  // a WebSocket listener on 9001 (for browser clients), but mobile/desktop
-  // apps should use 1883.
-  static const int port = 1883;
+  // The MQTT broker at 192.168.188.105 exposes WebSocket on port 9001.
+  // Both native and web clients will use WebSocket.
+  static const int port = 9001;
 
   /// Set true if the broker requires TLS on the chosen port
   static const bool useTls = false;
 
   /// If your broker exposes MQTT over WebSocket (often required in browsers)
-  // Use WebSocket in browser builds. Set to true for Flutter Web (Chrome).
-  // Use WebSocket only for web builds. The `MqttService` implementation
-  // already selects the websocket client on web via `kIsWeb` — keep this
-  // false by default to avoid accidental websocket port usage on native.
-  static const bool useWebSocket = false;
+  // The MQTT broker only exposes WebSocket on 9001, so use it for all platforms.
+  static const bool useWebSocket = true;
 
   /// Optional WebSocket path (commonly '/mqtt'). Ignored when useWebSocket=false
   /// Note: the embedded test broker does not expose a path, so use empty string.
@@ -52,8 +46,8 @@ class MqttConfig {
   // The embedded test broker (`MQTT_Test_Server/Server.py`) writes one test
   // user by default: user `test_user` with password `test_password`.
   // Set these here so browser and Pi clients authenticate correctly.
-  static const String? username = 'test_user';
-  static const String? password = 'test_password';
+  static const String? username = 'jonathan';
+  static const String? password = 'iiius_admin';
 
   // === Last Will & Testament (optional but recommended) ===
   /// Set to a topic if you want the broker to publish a will message on

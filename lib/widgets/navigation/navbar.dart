@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
+/// Bottom navigation bar widget for the main application.
+///
+/// Provides navigation between the main application screens:
+/// - More (index 0)
+/// - Map (index 1)
+/// - Information (index 2)
+/// - Account (index 3)
 class Navbar extends StatelessWidget {
+  /// The current index of the selected navigation item
   final int currentIndex;
 
   const Navbar({super.key, required this.currentIndex});
 
+  /// Handle navigation when a bottom navigation item is tapped.
   void _onItemTapped(BuildContext context, int index) {
     String targetRoute;
     switch (index) {
@@ -31,20 +40,21 @@ class Navbar extends StatelessWidget {
     return SizedBox(
       height: 80,
       child: ClipRRect(
+        // Round the top-right corner for a modern look
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(100),
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
-          selectedItemColor: Color(0xFF009940),
+          selectedItemColor: const Color(0xFF009940),
           unselectedItemColor: Colors.white,
           iconSize: 50,
           selectedFontSize: 0,
           unselectedFontSize: 0,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          currentIndex: currentIndex, // Muss 0, 1, 2 oder 3 sein!
+          currentIndex: currentIndex,
           onTap: (index) => _onItemTapped(context, index),
           items: const [
             BottomNavigationBarItem(

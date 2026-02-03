@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 
+/// A wide rectangular button widget with icon and label.
+///
+/// This button displays an icon on the left and label text on the right.
+/// It's typically used for detailed action items or menu options.
 class WideButton extends StatelessWidget {
+  /// The icon to display on the left side
   final IconData icon;
+
+  /// The text label displayed to the right of the icon
   final String label;
+
+  /// Callback function triggered when the button is pressed
   final VoidCallback onPressed;
+
+  /// Background color of the button
   final Color backgroundColor;
+
+  /// Color of the icon
   final Color iconColor;
+
+  /// Color of the text label
   final Color textColor;
 
   const WideButton({
@@ -26,11 +41,12 @@ class WideButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
+          // Add shadow for depth
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
               blurRadius: 12,
-              offset: Offset(0, 5),
+              offset: const Offset(0, 5),
             )
           ],
         ),
@@ -47,8 +63,10 @@ class WideButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(width: 32),
+              // Icon on the left
               Icon(icon, size: 70, color: iconColor),
               const SizedBox(width: 32),
+              // Label text on the right
               Expanded(
                 child: Text(
                   label,

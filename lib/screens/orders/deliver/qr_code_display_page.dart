@@ -45,6 +45,18 @@ class _QrCodeDisplayPageState extends State<QrCodeDisplayPage> {
             // ignore if widget disposed
             if (!mounted) return;
             if (status == 'success') {
+              final compartment = data['compartment'];
+              // Unlock the corresponding compartment
+              
+              if (compartment != null) {
+                // ignore: avoid_print
+                print('MQTT: sending unlock command for compartment $compartment');
+                MqttService.instance.publishJson('interaction/delivery', {
+                  'status': 'unlock',
+                  'compartment': compartment,
+                  'timestamp': DateTime.now().millisecondsSinceEpoch,
+                });
+              }
               Navigator.pushNamed(context, '/qr_scan_success');
             } else {
               Navigator.pushNamed(context, '/qr_scan_failed');

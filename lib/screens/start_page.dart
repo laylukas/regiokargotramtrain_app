@@ -3,6 +3,11 @@ import 'package:regiokargotramtrain_app/widgets/navigation/header.dart';
 import 'package:regiokargotramtrain_app/widgets/navigation/navbar.dart';
 import 'package:regiokargotramtrain_app/widgets/buttons/square_button.dart';
 
+/// Main start page where users choose between picking up or shipping packages.
+///
+/// This page provides the primary navigation for the two main operations:
+/// - Package pickup
+/// - Package shipping
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
 
@@ -16,6 +21,7 @@ class StartPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Main heading asking user what they want to do
               Text(
                 'Was wollen Sie tun?',
                 style: Theme.of(
@@ -24,9 +30,11 @@ class StartPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
+              // Action buttons for pickup and shipping
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Pickup button
                   SquareButton(
                     icon: Icons.inbox,
                     label: 'Abholen',
@@ -38,10 +46,13 @@ class StartPage extends StatelessWidget {
                     textColor: Colors.black,
                   ),
                   const SizedBox(width: 32),
+                  // Shipping button (placeholder for future implementation)
                   SquareButton(
                     icon: Icons.send,
                     label: 'Versand',
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO: Implement shipping functionality
+                    },
                     backgroundColor: Colors.white,
                     iconColor: Colors.black,
                     textColor: Colors.black,
@@ -52,6 +63,7 @@ class StartPage extends StatelessWidget {
           ),
         ),
       ),
+      // Bottom navigation bar
       bottomNavigationBar: const Navbar(currentIndex: 0),
     );
   }

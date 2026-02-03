@@ -53,7 +53,7 @@ class MqttService {
       final path = MqttConfig.websocketPath ?? '';
       final wsPort = MqttConfig.websocketPort ?? MqttConfig.port;
       final uri = '$scheme://${MqttConfig.broker}:${wsPort}$path';
-      client = MqttBrowserClient(uri, clientId);
+      client = MqttBrowserClient(uri, "");
       // Some mqtt_client versions keep a separate `port`/`server` field.
       // Ensure they match the URI so the browser WS uses the correct port.
       try {
@@ -161,6 +161,7 @@ class MqttService {
       // `isConnected` getter which checks `_client` (not yet assigned).
       // Instead inspect the freshly connected client's status.
       if (client.connectionStatus?.state != MqttConnectionState.connected) {
+        print("DEBUG ERROR: $client");
         throw Exception('MQTT not connected: ${client.connectionStatus}');
       }
 

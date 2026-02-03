@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// all pages
+// Import all pages/screens
 import 'screens/loading_page.dart';
 import 'screens/start_page.dart';
 import 'screens/more/more_page.dart';
@@ -14,39 +14,45 @@ import 'screens/orders/deliver/qr_scan_failed_page.dart';
 import 'screens/orders/deliver/repetition_process_page.dart';
 import 'screens/orders/deliver/pickup_done.dart';
 
+/// Application entry point.
 void main() {
   runApp(const RegioKArgoTramTrainApp());
 }
 
+/// Root widget of the RegioKargo TramTrain application.
+///
+/// This widget configures the MaterialApp with all necessary routes,
+/// theming, and initial settings for the entire application.
 class RegioKArgoTramTrainApp extends StatelessWidget {
   const RegioKArgoTramTrainApp({super.key});
 
-  // This widget is the root of your application.
+  /// Build the application widget tree.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'RegioKArgoTramTrain',
       theme: ThemeData(
         useMaterial3: false,
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF009940)),
+        // Define the app's color scheme with green accent color (#009940)
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF009940)),
       ),
-      // loading page
+      // Start with the loading page as the initial route
       initialRoute: '/loading',
 
+      // Define all application routes
       routes: {
-        // routes
-        '/loading': (context) => LoadingPage(),
-        '/start': (context) => StartPage(),
-        '/more': (context) => MorePage(),
-        '/map': (context) => MapPage(),
-        '/info': (context) => InfoPage(),
-        '/account': (context) => AccountPage(),
-        '/qr_scan_introduction': (context) => QrScanInstructionPage(),
-        '/qr_code_display': (context) => QrCodeDisplayPage(),
-        '/qr_scan_success': (context) => QrScanSuccessPage(),
-        '/qr_scan_failed': (context) => QrScanFailed(),
-        '/repetition_process': (context) => RepetitionProcessPage(),
-        '/pickup_done': (context) => PickupDone()
+        '/loading': (context) => const LoadingPage(),
+        '/start': (context) => const StartPage(),
+        '/more': (context) => const MorePage(),
+        '/map': (context) => const MapPage(),
+        '/info': (context) => const InfoPage(),
+        '/account': (context) => const AccountPage(),
+        '/qr_scan_introduction': (context) => const QrScanInstructionPage(),
+        '/qr_code_display': (context) => const QrCodeDisplayPage(),
+        '/qr_scan_success': (context) => const QrScanSuccessPage(),
+        '/qr_scan_failed': (context) => const QrScanFailed(),
+        '/repetition_process': (context) => const RepetitionProcessPage(),
+        '/pickup_done': (context) => const PickupDone(),
       },
     );
   }
